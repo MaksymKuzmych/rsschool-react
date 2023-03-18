@@ -1,0 +1,44 @@
+.wrapper {
+  display: flex;
+  padding: 0 20px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #212529;
+}
+
+.img {
+  height: 70px;
+}
+
+.title {
+  color: #e9ecef;
+  font-size: 34px;
+}
+
+.list {
+  display: flex;
+  gap: 30px;
+  font-size: 32px;
+}
+
+.item:active,
+.item:hover,
+.item {
+  text-decoration: none;
+  color: white;
+}
+
+.activeItem:active,
+.activeItem:hover,
+.activeItem {
+  text-decoration: none;
+  color: #ff5722;
+}
+
+.item {
+  transition: transform 0.3s;
+}
+
+.item:hover {
+  transform: scale(1.05);
+}

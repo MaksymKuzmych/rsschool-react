@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  padding: 5px 20px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #212529;
+}
+
+.img {
+  width: 80px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s;
+}
+
+.img:hover {
+  transform: scale(1.05);
+}
+
+.year {
+  font-size: 28px;
+  color: white;
+}
