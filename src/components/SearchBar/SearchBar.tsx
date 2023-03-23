@@ -33,7 +33,7 @@ export class SearchBar extends Component {
         placeholder="What are you looking for?"
         value={this.state.value}
         onChange={this.handleInputValue}
-      ></input>
+      />
       <button type="submit" className={styles.searchButton}>
         <i className="fa fa-search"></i>
       </button>

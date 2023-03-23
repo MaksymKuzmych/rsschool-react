@@ -20,7 +20,8 @@ export class Cards extends Component {
   };
 
   render = () => {
-    const cardsLayout = this.state.cards.map((card) => <Card key={card.id} card={card} />);
+    const { cards } = this.state;
+    const cardsLayout = cards.map((card) => <Card key={card.id} card={card} />);
 
     return (
       <div className={styles.wrapper} data-testid="cards">

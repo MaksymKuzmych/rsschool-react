@@ -2,15 +2,15 @@ import React from 'react';
 import { describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
-import { About } from '../pages/About/About';
+import { AboutPage } from '../pages/AboutPage/AboutPage';
 
 describe('About Page', () => {
   it('Should be defined', () => {
-    expect(<About />).toBeDefined();
+    expect(<AboutPage />).toBeDefined();
   });
 
   it('Should has right content', () => {
-    render(<About />);
+    render(<AboutPage />);
     expect(
       screen.getByRole('heading', {
         level: 2,

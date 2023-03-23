@@ -1,25 +1,25 @@
 .list {
   display: flex;
-  gap: 30px;
+  gap: 20px;
   font-size: 32px;
+  width: 230px;
 }
 
-.item:active,
-.item:hover,
-.item {
+.item,
+.activeItem {
   text-decoration: none;
+}
+
+.item {
   color: white;
 }
 
-.activeItem:active,
-.activeItem:hover,
 .activeItem {
-  text-decoration: none;
   color: #ff5722;
 }
 
 .item {
-  transition: transform 0.3s;
+  transition: transform 0.2s;
 }
 
 .item:hover {
