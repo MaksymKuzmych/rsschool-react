@@ -7,6 +7,7 @@
   margin: 0 auto;
   padding: 20px;
   font-size: 20px;
+  color: #212529;
 }
 
 .formGroup {
@@ -24,11 +25,17 @@
   border-radius: 5px;
   cursor: pointer;
   background-color: #e9ecef;
-  color: black;
   transition: all 0.2s;
 }
 
 .submit:hover {
   background-color: #ff5722;
   color: #e9ecef;
+}
+
+.error {
+  color: red;
+  height: 14px;
+  font-size: 14px;
+  text-align: center;
 }

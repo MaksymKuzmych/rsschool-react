@@ -1,15 +1,16 @@
 import React, { Component, RefObject } from 'react';
 
 interface SelectCountryProps {
-  forwardedRef: RefObject<HTMLSelectElement>;
+  forwardRef: RefObject<HTMLSelectElement>;
+  error: string;
 }
 
 import styles from './SelectCountry.module.css';
 
 export class SelectCountry extends Component<SelectCountryProps> {
   render = () => {
+    const { error } = this.props;
     const countries = ['Ukraine', 'Russia', 'Belarus', 'Other country'];
-
     const countriesLayout = countries.map((country, index) => (
       <option value={country} key={index}>
         {country}
@@ -17,15 +18,18 @@ export class SelectCountry extends Component<SelectCountryProps> {
     ));
 
     return (
-      <label className={styles.label}>
-        Country:
-        <select name="country" id="country" ref={this.props.forwardedRef} defaultValue={'none'}>
-          <option disabled value="none" style={{ display: 'none' }}>
-            -- select an option --
-          </option>
-          {countriesLayout}
-        </select>
-      </label>
+      <div>
+        <label className={styles.label}>
+          Country:
+          <select name="country" id="country" ref={this.props.forwardRef} defaultValue={''}>
+            <option disabled value="" style={{ display: 'none' }}>
+              -- select an option --
+            </option>
+            {countriesLayout}
+          </select>
+        </label>
+        <p className={styles.error}>{error}</p>
+      </div>
     );
   };
 }

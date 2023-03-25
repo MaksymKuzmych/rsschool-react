@@ -8,18 +8,24 @@ export interface CustomInputProps {
   type: string;
   title: string;
   name?: string;
-  forwardedRef: RefObject<HTMLInputElement>;
+  forwardRef: RefObject<HTMLInputElement>;
+  error?: string;
 }
 
 export class CustomInput extends Component<CustomInputProps> {
   render = () => {
-    const { title } = this.props;
+    const { type, title, error } = this.props;
     const input = getInput(this.props);
+    const isTextOrFile = type === 'text' || type === 'file';
+    const isAgreement = title === 'Consent to the processing of personal data';
 
     return (
-      <label className={styles.label}>
-        {title}: {input}
-      </label>
+      <div>
+        <label className={styles.label}>
+          {title}: {input}
+        </label>
+        {(isTextOrFile || isAgreement) && <p className={styles.error}>{error}</p>}
+      </div>
     );
   };
 }

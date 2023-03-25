@@ -8,11 +8,11 @@ export interface ICard {
 }
 
 export interface IUser {
-  name: string | undefined;
-  surname: string | undefined;
-  birthday: string | undefined;
-  country: string | undefined;
-  languages: (string | undefined)[];
+  name: string;
+  surname: string;
+  birthday: string;
+  country: string;
+  languages: (string | null)[];
   gender: string | null;
   file: Blob | undefined;
 }
