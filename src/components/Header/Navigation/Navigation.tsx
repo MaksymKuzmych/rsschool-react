@@ -9,7 +9,7 @@ const navLinks = {
   Form: '/form',
 };
 
-export default class Navigation extends Component {
+export class Navigation extends Component {
   render = () => {
     const navLinksLayout = Object.entries(navLinks).map((navLink, index) => (
       <NavLink

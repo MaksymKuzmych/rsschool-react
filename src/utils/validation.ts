@@ -25,10 +25,11 @@ export const validateText = (
   context: Component<object, FormState>
 ) => {
   let error = '';
+  const firstLetter = refValue[0];
 
   if (refValue.length < 2 || refValue.length > 10) error = 'Must contain 2-10 characters';
 
-  if (refValue && refValue[0] !== refValue[0].toLocaleUpperCase()) {
+  if (refValue && firstLetter !== firstLetter.toLocaleUpperCase()) {
     error = 'First letter must be capitalized';
   }
 

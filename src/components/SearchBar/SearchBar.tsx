@@ -13,7 +13,6 @@ export class SearchBar extends Component {
 
   componentDidMount = () => {
     const valueFromLocalStorage = localStorage.getItem('searchInput');
-
     this.setState({ value: valueFromLocalStorage || '' });
   };
 

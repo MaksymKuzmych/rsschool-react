@@ -21,7 +21,7 @@ export class SelectCountry extends Component<SelectCountryProps> {
       <div>
         <label className={styles.label}>
           Country:
-          <select name="country" id="country" ref={this.props.forwardRef} defaultValue={''}>
+          <select name="country" id="country" ref={this.props.forwardRef} defaultValue="">
             <option disabled value="" style={{ display: 'none' }}>
               -- select an option --
             </option>

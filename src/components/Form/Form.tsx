@@ -1,4 +1,4 @@
-import React, { Component, createRef, FormEvent, RefObject } from 'react';
+import React, { Component, createRef, FormEvent } from 'react';
 
 import { CustomInput } from './CustomInput/CustomInput';
 import { SelectCountry } from './SelectCountry/SelectCountry';
@@ -24,51 +24,42 @@ export interface FormState {
   fileError: string;
 }
 
-const defaultState: FormState = {
-  nameError: '',
-  surnameError: '',
-  birthdayError: '',
-  countryError: '',
-  agreementError: '',
-  languageError: '',
-  genderError: '',
-  fileError: '',
-};
-
 export class Form extends Component<FormProps> {
-  state: FormState = { ...defaultState };
+  state: FormState = {
+    nameError: '',
+    surnameError: '',
+    birthdayError: '',
+    countryError: '',
+    agreementError: '',
+    languageError: '',
+    genderError: '',
+    fileError: '',
+  };
 
-  form: RefObject<HTMLFormElement> = createRef();
-  name: RefObject<HTMLInputElement> = createRef();
-  surname: RefObject<HTMLInputElement> = createRef();
-  birthday: RefObject<HTMLInputElement> = createRef();
-  country: RefObject<HTMLSelectElement> = createRef();
-  agreement: RefObject<HTMLInputElement> = createRef();
-  langEN: RefObject<HTMLInputElement> = createRef();
-  langRU: RefObject<HTMLInputElement> = createRef();
-  langUA: RefObject<HTMLInputElement> = createRef();
-  male: RefObject<HTMLInputElement> = createRef();
-  female: RefObject<HTMLInputElement> = createRef();
-  file: RefObject<HTMLInputElement> = createRef();
+  form = createRef<HTMLFormElement>();
+  name = createRef<HTMLInputElement>();
+  surname = createRef<HTMLInputElement>();
+  birthday = createRef<HTMLInputElement>();
+  country = createRef<HTMLSelectElement>();
+  agreement = createRef<HTMLInputElement>();
+  langEN = createRef<HTMLInputElement>();
+  langRU = createRef<HTMLInputElement>();
+  langUA = createRef<HTMLInputElement>();
+  male = createRef<HTMLInputElement>();
+  female = createRef<HTMLInputElement>();
+  file = createRef<HTMLInputElement>();
 
   handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const { addNewUser } = this.props;
-
-    this.setState({ ...defaultState });
-
     const name = this.name.current?.value || '';
     const surname = this.surname.current?.value || '';
     const birthday = this.birthday.current?.value || '';
     const country = this.country.current?.value || '';
     const agreement = this.agreement.current?.checked || false;
+    const languages: (string | null)[] = getLanguages([this.langEN, this.langRU, this.langUA]);
+    const gender: string | null = getGender([this.male, this.female]);
     const file = this.file.current?.files?.[0];
-    const languagesRefs = [this.langEN, this.langRU, this.langUA];
-    const languages: (string | null)[] = getLanguages(languagesRefs);
-    const genderRefs = [this.male, this.female];
-    const gender: string | null = getGender(genderRefs);
-
     const validateForm = [
       validateText(name, 'nameError', this),
       validateText(surname, 'surnameError', this),
@@ -90,7 +81,6 @@ export class Form extends Component<FormProps> {
         gender,
         file,
       };
-
       addNewUser(newUser);
       this.form.current?.reset();
     }
@@ -121,13 +111,11 @@ export class Form extends Component<FormProps> {
           error={birthdayError}
         />
         <h3 className={styles.formGroupTitle}>Gender</h3>
-        <div>
-          <div className={styles.formGroup}>
-            <CustomInput type="radio" title="Male" name="gender" forwardRef={this.male} />
-            <CustomInput type="radio" title="Female" name="gender" forwardRef={this.female} />
-          </div>
-          <p className={styles.error}>{genderError}</p>
+        <div className={styles.formGroup}>
+          <CustomInput type="radio" title="Male" name="gender" forwardRef={this.male} />
+          <CustomInput type="radio" title="Female" name="gender" forwardRef={this.female} />
         </div>
+        <p className={styles.error}>{genderError}</p>
         <SelectCountry forwardRef={this.country} error={countryError} />
         <CustomInput
           type="checkbox"
@@ -136,14 +124,12 @@ export class Form extends Component<FormProps> {
           error={agreementError}
         />
         <h3 className={styles.formGroupTitle}>Languages you speak</h3>
-        <div>
-          <div className={styles.formGroup}>
-            <CustomInput type="checkbox" title="English" forwardRef={this.langEN} />
-            <CustomInput type="checkbox" title="Russian" forwardRef={this.langRU} />
-            <CustomInput type="checkbox" title="Ukrainian" forwardRef={this.langUA} />
-          </div>
-          <p className={styles.error}>{languageError}</p>
+        <div className={styles.formGroup}>
+          <CustomInput type="checkbox" title="English" forwardRef={this.langEN} />
+          <CustomInput type="checkbox" title="Russian" forwardRef={this.langRU} />
+          <CustomInput type="checkbox" title="Ukrainian" forwardRef={this.langUA} />
         </div>
+        <p className={styles.error}>{languageError}</p>
         <CustomInput type="file" title="Avatar" forwardRef={this.file} error={fileError} />
         <input type="submit" value="Add new user" className={styles.submit} />
       </form>

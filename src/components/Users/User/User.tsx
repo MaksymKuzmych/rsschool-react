@@ -11,7 +11,7 @@ interface UserProps {
 export class User extends Component<UserProps> {
   render = () => {
     const { name, surname, birthday, country, languages, gender, file } = this.props.user;
-    const imgSrc = file ? URL.createObjectURL(file) : './svg/empty-user.svg';
+    const imgSrc = file ? URL.createObjectURL(file) : '';
     const languagesLayout = languages.map((lang, index) => <span key={index}>{lang}</span>);
 
     return (

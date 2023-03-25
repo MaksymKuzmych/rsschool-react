@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { withRouter, WithRouterProps } from '../../utils/withRouter';
 import { getHeaderTitle } from '../../utils/getHeaderTitle';
-import Navigation from './Navigation/Navigation';
+import { Navigation } from './Navigation/Navigation';
 
 import styles from './Header.module.css';
 
