@@ -23,7 +23,7 @@ export class User extends Component<UserProps> {
           <h3 className={styles.title}>
             {name} {surname}
           </h3>
-          <p className={styles.paragraph}>{gender}</p>
+          <p className={styles.paragraph}>Gender: {gender}</p>
           <p className={styles.paragraph}>Birthday: {birthday?.toString()}</p>
           <p className={styles.paragraph}>Country: {country}</p>
           <h3 className={styles.title}>Languages:</h3>

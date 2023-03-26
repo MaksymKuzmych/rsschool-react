@@ -13,7 +13,10 @@ export const validateRequired = (
 
   context.setState((prevState) => ({
     ...prevState,
-    [stateProp]: error,
+    validation: {
+      ...prevState.validation,
+      [stateProp]: error,
+    },
   }));
 
   return !!error;
@@ -37,7 +40,10 @@ export const validateText = (
 
   context.setState((prevState) => ({
     ...prevState,
-    [stateProp]: error,
+    validation: {
+      ...prevState.validation,
+      [stateProp]: error,
+    },
   }));
 
   return !!error;
@@ -45,16 +51,19 @@ export const validateText = (
 
 export const validateLang = (
   arr: (string | null)[],
-  prop: string,
-  ctx: Component<object, FormState>
+  stateProp: string,
+  context: Component<object, FormState>
 ) => {
   let error = '';
 
   if (!arr.length) error = 'Choose at least 1 language';
 
-  ctx.setState((prevState) => ({
+  context.setState((prevState) => ({
     ...prevState,
-    [prop]: error,
+    validation: {
+      ...prevState.validation,
+      [stateProp]: error,
+    },
   }));
 
   return !!error;
@@ -62,8 +71,8 @@ export const validateLang = (
 
 export const validateFile = (
   refValue: Blob | undefined,
-  prop: string,
-  ctx: Component<object, FormState>
+  stateProp: string,
+  context: Component<object, FormState>
 ) => {
   let error = '';
 
@@ -71,9 +80,12 @@ export const validateFile = (
 
   if (!refValue) error = 'Required field';
 
-  ctx.setState((prevState) => ({
+  context.setState((prevState) => ({
     ...prevState,
-    [prop]: error,
+    validation: {
+      ...prevState.validation,
+      [stateProp]: error,
+    },
   }));
 
   return !!error;

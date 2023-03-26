@@ -16,7 +16,7 @@ export class CustomInput extends Component<CustomInputProps> {
   render = () => {
     const { type, title, error } = this.props;
     const input = getInput(this.props);
-    const isTextOrFile = type === 'text' || type === 'file';
+    const isCorrectType = type === 'text' || type === 'file' || type === 'date';
     const isAgreement = title === 'Consent to the processing of personal data';
 
     return (
@@ -24,7 +24,7 @@ export class CustomInput extends Component<CustomInputProps> {
         <label className={styles.label}>
           {title}: {input}
         </label>
-        {(isTextOrFile || isAgreement) && <p className={styles.error}>{error}</p>}
+        {(isCorrectType || isAgreement) && <p className={styles.error}>{error}</p>}
       </div>
     );
   };

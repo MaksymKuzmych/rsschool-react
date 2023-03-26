@@ -4,7 +4,7 @@ import { CustomInput } from './CustomInput/CustomInput';
 import { SelectCountry } from './SelectCountry/SelectCountry';
 import { getLanguages } from '../../utils/getLanguages';
 import { getGender } from '../../utils/getGender';
-import { IUser } from '../../interfaces/interfaces';
+import { IFormValidation, IUser } from '../../interfaces/interfaces';
 import { validateFile, validateText, validateLang, validateRequired } from '../../utils/validation';
 
 import styles from './Form.module.css';
@@ -14,26 +14,23 @@ interface FormProps {
 }
 
 export interface FormState {
-  nameError: string;
-  surnameError: string;
-  birthdayError: string;
-  countryError: string;
-  agreementError: string;
-  languageError: string;
-  genderError: string;
-  fileError: string;
+  isSuccess: boolean;
+  validation: IFormValidation;
 }
 
 export class Form extends Component<FormProps> {
   state: FormState = {
-    nameError: '',
-    surnameError: '',
-    birthdayError: '',
-    countryError: '',
-    agreementError: '',
-    languageError: '',
-    genderError: '',
-    fileError: '',
+    isSuccess: false,
+    validation: {
+      nameError: '',
+      surnameError: '',
+      birthdayError: '',
+      countryError: '',
+      agreementError: '',
+      languageError: '',
+      genderError: '',
+      fileError: '',
+    },
   };
 
   form = createRef<HTMLFormElement>();
@@ -82,11 +79,13 @@ export class Form extends Component<FormProps> {
         file,
       };
       addNewUser(newUser);
+      this.setState({ isSuccess: true });
       this.form.current?.reset();
     }
   };
 
   render = () => {
+    const { isSuccess } = this.state;
     const {
       nameError,
       surnameError,
@@ -96,43 +95,61 @@ export class Form extends Component<FormProps> {
       genderError,
       languageError,
       fileError,
-    } = this.state;
+    } = this.state.validation;
 
     return (
-      <form className={styles.form} onSubmit={this.handleSubmit} ref={this.form} noValidate>
-        <div className={styles.formGroup}>
-          <CustomInput type="text" title="Name" forwardRef={this.name} error={nameError} />
-          <CustomInput type="text" title="Surname" forwardRef={this.surname} error={surnameError} />
-        </div>
-        <CustomInput
-          type="date"
-          title="Birthday"
-          forwardRef={this.birthday}
-          error={birthdayError}
-        />
-        <h3 className={styles.formGroupTitle}>Gender</h3>
-        <div className={styles.formGroup}>
-          <CustomInput type="radio" title="Male" name="gender" forwardRef={this.male} />
-          <CustomInput type="radio" title="Female" name="gender" forwardRef={this.female} />
-        </div>
-        <p className={styles.error}>{genderError}</p>
-        <SelectCountry forwardRef={this.country} error={countryError} />
-        <CustomInput
-          type="checkbox"
-          title="Consent to the processing of personal data"
-          forwardRef={this.agreement}
-          error={agreementError}
-        />
-        <h3 className={styles.formGroupTitle}>Languages you speak</h3>
-        <div className={styles.formGroup}>
-          <CustomInput type="checkbox" title="English" forwardRef={this.langEN} />
-          <CustomInput type="checkbox" title="Russian" forwardRef={this.langRU} />
-          <CustomInput type="checkbox" title="Ukrainian" forwardRef={this.langUA} />
-        </div>
-        <p className={styles.error}>{languageError}</p>
-        <CustomInput type="file" title="Avatar" forwardRef={this.file} error={fileError} />
-        <input type="submit" value="Add new user" className={styles.submit} />
-      </form>
+      <>
+        <form
+          className={styles.form}
+          onSubmit={this.handleSubmit}
+          ref={this.form}
+          noValidate
+          name="form"
+        >
+          <div className={styles.formGroup}>
+            <CustomInput type="text" title="Name" forwardRef={this.name} error={nameError} />
+            <CustomInput
+              type="text"
+              title="Surname"
+              forwardRef={this.surname}
+              error={surnameError}
+            />
+          </div>
+          <CustomInput
+            type="date"
+            title="Birthday"
+            forwardRef={this.birthday}
+            error={birthdayError}
+          />
+          <h3 className={styles.formGroupTitle}>Gender</h3>
+          <div className={styles.formGroup}>
+            <CustomInput type="radio" title="Male" name="gender" forwardRef={this.male} />
+            <CustomInput type="radio" title="Female" name="gender" forwardRef={this.female} />
+          </div>
+          <p className={styles.error}>{genderError}</p>
+          <SelectCountry forwardRef={this.country} error={countryError} />
+          <CustomInput
+            type="checkbox"
+            title="Consent to the processing of personal data"
+            forwardRef={this.agreement}
+            error={agreementError}
+          />
+          <h3 className={styles.formGroupTitle}>Languages you speak</h3>
+          <div className={styles.formGroup}>
+            <CustomInput type="checkbox" title="English" forwardRef={this.langEN} />
+            <CustomInput type="checkbox" title="Russian" forwardRef={this.langRU} />
+            <CustomInput type="checkbox" title="Ukrainian" forwardRef={this.langUA} />
+          </div>
+          <p className={styles.error}>{languageError}</p>
+          <CustomInput type="file" title="Avatar" forwardRef={this.file} error={fileError} />
+          <input type="submit" value="Add new user" className={styles.submit} />
+        </form>
+        {isSuccess && (
+          <div className={styles.modal} onClick={() => this.setState({ isSuccess: false })}>
+            <p>User has been successfully added!</p>
+          </div>
+        )}
+      </>
     );
   };
 }

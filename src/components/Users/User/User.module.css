@@ -13,12 +13,13 @@
 
 .imgWrapper {
   height: 250px;
+  width: 250px;
   overflow: hidden;
   border-bottom: 1px solid #ff5722;
 }
 
 .img {
-  width: 100%;
+  min-width: 100%;
   height: 100%;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
@@ -30,12 +31,16 @@
 }
 
 .mainInfo {
-  padding: 10px;
+  padding: 5px;
 }
 
 .paragraph,
 .title {
   text-align: center;
+}
+
+.title {
+  font-size: 24px;
 }
 
 .paragraph {

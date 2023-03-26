@@ -16,3 +16,14 @@ export interface IUser {
   gender: string | null;
   file: Blob | undefined;
 }
+
+export interface IFormValidation {
+  nameError: string;
+  surnameError: string;
+  birthdayError: string;
+  countryError: string;
+  agreementError: string;
+  languageError: string;
+  genderError: string;
+  fileError: string;
+}
