@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import { Form } from '../../components/Form/Form';
 import { Users } from '../../components/Users/Users';
@@ -6,23 +6,17 @@ import { IUser } from '../../interfaces/interfaces';
 
 import styles from './FormPage.module.css';
 
-interface FormPageState {
-  users: IUser[];
-}
+export const FormPage = () => {
+  const [users, setUsers] = useState<IUser[]>([]);
 
-export class FormPage extends Component {
-  state: FormPageState = {
-    users: [],
+  const addNewUser = (newUser: IUser) => {
+    setUsers([...users, newUser]);
   };
 
-  addNewUser = (newUser: IUser) => {
-    this.setState({ users: [...this.state.users, newUser] });
-  };
-
-  render = () => (
+  return (
     <div className={styles.wrapper}>
-      <Form addNewUser={this.addNewUser} />
-      <Users users={this.state.users} />
+      <Form addNewUser={addNewUser} />
+      <Users users={users} />
     </div>
   );
-}
+};

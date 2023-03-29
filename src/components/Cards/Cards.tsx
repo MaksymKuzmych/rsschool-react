@@ -1,32 +1,26 @@
-import React, { Component } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { songsData } from '../../assets/songs-data/songs';
-import { Card } from './Card/Card';
 import { ICard } from '../../interfaces/interfaces';
+import { Card } from './Card/Card';
 
 import styles from './Cards.module.css';
 
-interface CardsState {
-  cards: ICard[];
-}
+export const Cards = () => {
+  const [cards, setCards] = useState<ICard[]>([]);
 
-export class Cards extends Component {
-  state: CardsState = {
-    cards: [],
-  };
+  useEffect(() => {
+    setCards(songsData);
+  }, []);
 
-  componentDidMount = () => {
-    this.setState({ cards: songsData });
-  };
+  const cardsLayout = useMemo(
+    () => cards.map((card) => <Card key={card.id} card={card} />),
+    [cards]
+  );
 
-  render = () => {
-    const { cards } = this.state;
-    const cardsLayout = cards.map((card) => <Card key={card.id} card={card} />);
-
-    return (
-      <div className={styles.wrapper} data-testid="cards">
-        {cardsLayout}
-      </div>
-    );
-  };
-}
+  return (
+    <div className={styles.wrapper} data-testid="cards">
+      {cardsLayout}
+    </div>
+  );
+};

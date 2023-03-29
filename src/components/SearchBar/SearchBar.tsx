@@ -1,41 +1,31 @@
-import React, { Component, ChangeEvent } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import styles from './SearchBar.module.css';
 
-interface SearchBarState {
-  value: string;
-}
+export const SearchBar = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
 
-export class SearchBar extends Component {
-  state: SearchBarState = {
-    value: '',
-  };
+  useEffect(() => {
+    const current = inputRef.current;
 
-  componentDidMount = () => {
-    const valueFromLocalStorage = localStorage.getItem('searchInput');
-    this.setState({ value: valueFromLocalStorage || '' });
-  };
+    if (current) {
+      current.value = localStorage.getItem('searchInput') || '';
+    }
 
-  componentWillUnmount = () => {
-    localStorage.setItem('searchInput', this.state.value);
-  };
+    return () => localStorage.setItem('searchInput', current?.value || '');
+  }, []);
 
-  handleInputValue = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ value: event.target.value });
-  };
-
-  render = () => (
+  return (
     <div className={styles.search} data-testid="search">
       <input
         type="text"
         className={styles.searchTerm}
         placeholder="What are you looking for?"
-        value={this.state.value}
-        onChange={this.handleInputValue}
+        ref={inputRef}
       />
       <button type="submit" className={styles.searchButton}>
         <i className="fa fa-search"></i>
       </button>
     </div>
   );
-}
+};
