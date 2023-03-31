@@ -1,31 +1,29 @@
-import React, { Component, RefObject } from 'react';
-
-import { getInput } from '../../../utils/getInput';
+import React, { memo } from 'react';
+import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 import styles from './CustomInput.module.css';
 
-export interface CustomInputProps {
-  type: string;
-  title: string;
-  name?: string;
-  forwardRef: RefObject<HTMLInputElement>;
-  error?: string;
+interface CustomInputProps {
+  type?: string;
+  title?: string;
+  value?: string;
+  register: UseFormRegisterReturn<string>;
+  error?: FieldError;
 }
 
-export class CustomInput extends Component<CustomInputProps> {
-  render = () => {
-    const { type, title, error } = this.props;
-    const input = getInput(this.props);
+export const CustomInput = memo(
+  ({ type = 'text', title, value, register, error }: CustomInputProps) => {
     const isCorrectType = type === 'text' || type === 'file' || type === 'date';
     const isAgreement = title === 'Consent to the processing of personal data';
 
     return (
       <div>
         <label className={styles.label}>
-          {title}: {input}
+          <span className={styles.title}>{title || value || register.name}: </span>
+          <input type={type} {...register} value={value} autoComplete="nope" />
         </label>
-        {(isCorrectType || isAgreement) && <p className={styles.error}>{error}</p>}
+        {(isCorrectType || isAgreement) && <p className={styles.error}>{error && error.message}</p>}
       </div>
     );
-  };
-}
+  }
+);

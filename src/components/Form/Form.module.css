@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: 3px;
   align-items: center;
-  width: 420px;
+  width: 440px;
   margin: 0 auto;
   padding: 20px;
   font-size: 20px;
@@ -26,6 +26,7 @@
   cursor: pointer;
   background-color: #e9ecef;
   transition: all 0.2s;
+  margin-top: 5px;
 }
 
 .submit:hover {
@@ -35,8 +36,8 @@
 
 .error {
   color: red;
-  height: 14px;
-  font-size: 14px;
+  height: 12px;
+  font-size: 12px;
   text-align: center;
 }
 

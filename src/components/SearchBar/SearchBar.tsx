@@ -7,11 +7,7 @@ export const SearchBar = () => {
 
   useEffect(() => {
     const current = inputRef.current;
-
-    if (current) {
-      current.value = localStorage.getItem('searchInput') || '';
-    }
-
+    if (current) current.value = localStorage.getItem('searchInput') || '';
     return () => localStorage.setItem('searchInput', current?.value || '');
   }, []);
 

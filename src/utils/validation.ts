@@ -1,92 +1,31 @@
-import { Component } from 'react';
-
-import { FormState } from '../components/Form/Form';
-
-export const validateRequired = (
-  refValue: string | boolean | null,
-  stateProp: string,
-  context: Component<object, FormState>
-) => {
-  let error = '';
-
-  if (!refValue) error = 'Required field';
-
-  context.setState((prevState) => ({
-    ...prevState,
-    validation: {
-      ...prevState.validation,
-      [stateProp]: error,
-    },
-  }));
-
-  return !!error;
+export const textValid = {
+  required: 'Required field',
+  minLength: {
+    value: 2,
+    message: 'Must contain at least 2 characters',
+  },
+  maxLength: {
+    value: 10,
+    message: 'Must contain less than 10 characters',
+  },
+  pattern: {
+    value: /[A-Z][a-z]*/g,
+    message: 'First letter must be capitalized',
+  },
 };
 
-export const validateText = (
-  refValue: string,
-  stateProp: string,
-  context: Component<object, FormState>
-) => {
-  let error = '';
-  const firstLetter = refValue[0];
-
-  if (refValue.length < 2 || refValue.length > 10) error = 'Must contain 2-10 characters';
-
-  if (refValue && firstLetter !== firstLetter.toLocaleUpperCase()) {
-    error = 'First letter must be capitalized';
-  }
-
-  if (!refValue) error = 'Required field';
-
-  context.setState((prevState) => ({
-    ...prevState,
-    validation: {
-      ...prevState.validation,
-      [stateProp]: error,
-    },
-  }));
-
-  return !!error;
+export const requiredValid = {
+  required: 'Required field',
 };
 
-export const validateLang = (
-  arr: (string | null)[],
-  stateProp: string,
-  context: Component<object, FormState>
-) => {
-  let error = '';
-
-  if (!arr.length) error = 'Choose at least 1 language';
-
-  context.setState((prevState) => ({
-    ...prevState,
-    validation: {
-      ...prevState.validation,
-      [stateProp]: error,
-    },
-  }));
-
-  return !!error;
+export const langValid = {
+  required: 'Choose at least one language',
 };
 
-export const validateFile = (
-  refValue: Blob | undefined,
-  stateProp: string,
-  context: Component<object, FormState>
-) => {
-  let error = '';
-
-  if (!refValue?.type.includes('image')) error = 'Must be an image';
-
-  if (!refValue) error = 'Required field';
-
-  context.setState((prevState) => ({
-    ...prevState,
-    validation: {
-      ...prevState.validation,
-      [stateProp]: error,
-    },
-  }));
-
-  return !!error;
+export const fileValid = {
+  validate: {
+    notEmpty: (value: FileList | undefined) => (value && value.length > 0) || 'Required Field',
+    typeImg: (value: FileList | undefined) =>
+      (value && value.length > 0 && value[0].type.startsWith('image')) || 'Must be an image',
+  },
 };

@@ -1,155 +1,97 @@
-import React, { Component, createRef, FormEvent } from 'react';
+import React, { memo, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
+import { IUser } from '../../interfaces/interfaces';
+import { textValid, requiredValid, langValid, fileValid } from '../../utils/validation';
 import { CustomInput } from './CustomInput/CustomInput';
 import { SelectCountry } from './SelectCountry/SelectCountry';
-import { getLanguages } from '../../utils/getLanguages';
-import { getGender } from '../../utils/getGender';
-import { IFormValidation, IUser } from '../../interfaces/interfaces';
-import { validateFile, validateText, validateLang, validateRequired } from '../../utils/validation';
 
 import styles from './Form.module.css';
+
+const languages = ['English', 'Russian', 'Ukrainian'];
+const genders = ['male', 'female'];
 
 interface FormProps {
   addNewUser: (user: IUser) => void;
 }
 
-export interface FormState {
-  isSuccess: boolean;
-  validation: IFormValidation;
-}
+export const Form = memo(({ addNewUser }: FormProps) => {
+  const [isSuccess, setIsSuccess] = useState(false);
 
-export class Form extends Component<FormProps> {
-  state: FormState = {
-    isSuccess: false,
-    validation: {
-      nameError: '',
-      surnameError: '',
-      birthdayError: '',
-      countryError: '',
-      agreementError: '',
-      languageError: '',
-      genderError: '',
-      fileError: '',
-    },
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitSuccessful, errors },
+    reset,
+  } = useForm<IUser>({
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
+    shouldFocusError: false,
+    shouldUseNativeValidation: false,
+  });
 
-  form = createRef<HTMLFormElement>();
-  name = createRef<HTMLInputElement>();
-  surname = createRef<HTMLInputElement>();
-  birthday = createRef<HTMLInputElement>();
-  country = createRef<HTMLSelectElement>();
-  agreement = createRef<HTMLInputElement>();
-  langEN = createRef<HTMLInputElement>();
-  langRU = createRef<HTMLInputElement>();
-  langUA = createRef<HTMLInputElement>();
-  male = createRef<HTMLInputElement>();
-  female = createRef<HTMLInputElement>();
-  file = createRef<HTMLInputElement>();
+  const onSubmit = handleSubmit((data) => {
+    setIsSuccess(true);
+    addNewUser(data);
+  });
 
-  handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { addNewUser } = this.props;
-    const name = this.name.current?.value || '';
-    const surname = this.surname.current?.value || '';
-    const birthday = this.birthday.current?.value || '';
-    const country = this.country.current?.value || '';
-    const agreement = this.agreement.current?.checked || false;
-    const languages: (string | null)[] = getLanguages([this.langEN, this.langRU, this.langUA]);
-    const gender: string | null = getGender([this.male, this.female]);
-    const file = this.file.current?.files?.[0];
-    const validateForm = [
-      validateText(name, 'nameError', this),
-      validateText(surname, 'surnameError', this),
-      validateRequired(birthday, 'birthdayError', this),
-      validateRequired(agreement, 'agreementError', this),
-      validateRequired(country, 'countryError', this),
-      validateLang(languages, 'languageError', this),
-      validateRequired(gender, 'genderError', this),
-      validateFile(file, 'fileError', this),
-    ].includes(true);
+  useEffect(() => {
+    if (isSubmitSuccessful) reset();
+  }, [reset, isSubmitSuccessful]);
 
-    if (!validateForm) {
-      const newUser = {
-        name,
-        surname,
-        birthday,
-        country,
-        languages,
-        gender,
-        file,
-      };
-      addNewUser(newUser);
-      this.setState({ isSuccess: true });
-      this.form.current?.reset();
-    }
-  };
-
-  render = () => {
-    const { isSuccess } = this.state;
-    const {
-      nameError,
-      surnameError,
-      birthdayError,
-      countryError,
-      agreementError,
-      genderError,
-      languageError,
-      fileError,
-    } = this.state.validation;
-
+  const languagesLayout = languages.map((language, idx) => {
     return (
-      <>
-        <form
-          className={styles.form}
-          onSubmit={this.handleSubmit}
-          ref={this.form}
-          noValidate
-          name="form"
-        >
-          <div className={styles.formGroup}>
-            <CustomInput type="text" title="Name" forwardRef={this.name} error={nameError} />
-            <CustomInput
-              type="text"
-              title="Surname"
-              forwardRef={this.surname}
-              error={surnameError}
-            />
-          </div>
-          <CustomInput
-            type="date"
-            title="Birthday"
-            forwardRef={this.birthday}
-            error={birthdayError}
-          />
-          <h3 className={styles.formGroupTitle}>Gender</h3>
-          <div className={styles.formGroup}>
-            <CustomInput type="radio" title="Male" name="gender" forwardRef={this.male} />
-            <CustomInput type="radio" title="Female" name="gender" forwardRef={this.female} />
-          </div>
-          <p className={styles.error}>{genderError}</p>
-          <SelectCountry forwardRef={this.country} error={countryError} />
-          <CustomInput
-            type="checkbox"
-            title="Consent to the processing of personal data"
-            forwardRef={this.agreement}
-            error={agreementError}
-          />
-          <h3 className={styles.formGroupTitle}>Languages you speak</h3>
-          <div className={styles.formGroup}>
-            <CustomInput type="checkbox" title="English" forwardRef={this.langEN} />
-            <CustomInput type="checkbox" title="Russian" forwardRef={this.langRU} />
-            <CustomInput type="checkbox" title="Ukrainian" forwardRef={this.langUA} />
-          </div>
-          <p className={styles.error}>{languageError}</p>
-          <CustomInput type="file" title="Avatar" forwardRef={this.file} error={fileError} />
-          <input type="submit" value="Add new user" className={styles.submit} />
-        </form>
-        {isSuccess && (
-          <div className={styles.modal} onClick={() => this.setState({ isSuccess: false })}>
-            <p>User has been successfully added!</p>
-          </div>
-        )}
-      </>
+      <CustomInput
+        type="checkbox"
+        register={register('languages', langValid)}
+        value={language}
+        key={idx}
+      />
     );
-  };
-}
+  });
+
+  const gendersLayout = genders.map((gender, idx) => (
+    <CustomInput
+      type="radio"
+      register={register('gender', requiredValid)}
+      value={gender}
+      key={idx}
+    />
+  ));
+
+  return (
+    <>
+      <form className={styles.form} onSubmit={onSubmit}>
+        <div className={styles.formGroup}>
+          <CustomInput register={register('name', textValid)} error={errors.name} />
+          <CustomInput register={register('surname', textValid)} error={errors.surname} />
+        </div>
+        <CustomInput
+          type="date"
+          register={register('birthday', requiredValid)}
+          error={errors.birthday}
+        />
+        <h3 className={styles.formGroupTitle}>Gender</h3>
+        <div className={styles.formGroup}>{gendersLayout}</div>
+        <p className={styles.error}>{errors?.gender && errors.gender.message}</p>
+        <SelectCountry register={register('country', requiredValid)} error={errors.country} />
+        <CustomInput
+          type="checkbox"
+          title="Consent to the processing of personal data"
+          register={register('agreement', requiredValid)}
+          error={errors.agreement}
+        />
+        <h3 className={styles.formGroupTitle}>Languages you speak</h3>
+        <div className={styles.formGroup}>{languagesLayout}</div>
+        <p className={styles.error}>{errors?.languages && errors.languages.message}</p>
+        <CustomInput type="file" register={register('avatar', fileValid)} error={errors.avatar} />
+        <input type="submit" value="Add new user" className={styles.submit} />
+      </form>
+      {isSuccess && (
+        <div className={styles.modal} onClick={() => setIsSuccess(false)}>
+          <p>User has been successfully added!</p>
+        </div>
+      )}
+    </>
+  );
+});

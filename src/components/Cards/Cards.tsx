@@ -9,9 +9,7 @@ import styles from './Cards.module.css';
 export const Cards = () => {
   const [cards, setCards] = useState<ICard[]>([]);
 
-  useEffect(() => {
-    setCards(songsData);
-  }, []);
+  useEffect(() => setCards(songsData), []);
 
   const cardsLayout = useMemo(
     () => cards.map((card) => <Card key={card.id} card={card} />),

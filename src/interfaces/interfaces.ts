@@ -14,16 +14,6 @@ export interface IUser {
   country: string;
   languages: (string | null)[];
   gender: string | null;
-  file: Blob | undefined;
-}
-
-export interface IFormValidation {
-  nameError: string;
-  surnameError: string;
-  birthdayError: string;
-  countryError: string;
-  agreementError: string;
-  languageError: string;
-  genderError: string;
-  fileError: string;
+  avatar: FileList | undefined;
+  agreement: boolean;
 }

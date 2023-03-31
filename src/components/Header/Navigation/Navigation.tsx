@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import styles from './Navigation.module.css';
@@ -12,15 +12,11 @@ const navLinks = {
 const checkActive = (isActive: boolean) => (isActive ? styles.activeItem : styles.item);
 
 export const Navigation = () => {
-  const navLinksLayout = useMemo(
-    () =>
-      Object.entries(navLinks).map((navLink, index) => (
-        <NavLink className={({ isActive }) => checkActive(isActive)} to={navLink[1]} key={index}>
-          {navLink[0]}
-        </NavLink>
-      )),
-    []
-  );
+  const navLinksLayout = Object.entries(navLinks).map((navLink, index) => (
+    <NavLink className={({ isActive }) => checkActive(isActive)} to={navLink[1]} key={index}>
+      {navLink[0]}
+    </NavLink>
+  ));
 
   return (
     <nav>

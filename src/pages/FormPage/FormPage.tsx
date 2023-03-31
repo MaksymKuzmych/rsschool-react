@@ -8,10 +8,7 @@ import styles from './FormPage.module.css';
 
 export const FormPage = () => {
   const [users, setUsers] = useState<IUser[]>([]);
-
-  const addNewUser = (newUser: IUser) => {
-    setUsers([...users, newUser]);
-  };
+  const addNewUser = (newUser: IUser) => setUsers([...users, newUser]);
 
   return (
     <div className={styles.wrapper}>
