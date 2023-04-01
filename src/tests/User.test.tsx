@@ -13,7 +13,8 @@ describe('User component', () => {
     country: 'Ukraine',
     languages: ['English', 'Ukrainian'],
     gender: 'Male',
-    file: undefined,
+    avatar: undefined,
+    agreement: true,
   };
 
   it('Should renders the user name and surname', () => {
