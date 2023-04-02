@@ -1,0 +1,27 @@
+.list {
+  display: flex;
+  gap: 20px;
+  font-size: 32px;
+  width: 230px;
+}
+
+.item,
+.activeItem {
+  text-decoration: none;
+}
+
+.item {
+  color: white;
+}
+
+.activeItem {
+  color: #ff5722;
+}
+
+.item {
+  transition: transform 0.2s;
+}
+
+.item:hover {
+  transform: scale(1.05);
+}

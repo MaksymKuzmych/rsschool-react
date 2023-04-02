@@ -1,0 +1,21 @@
+.wrapper {
+  flex-grow: 1;
+  background-color: #adb5bd;
+  height: calc(100vh - 125px);
+  overflow-y: scroll;
+}
+
+.wrapper::-webkit-scrollbar-track {
+  padding: 2px 0;
+  background-color: transparent;
+}
+
+.wrapper::-webkit-scrollbar {
+  width: 5px;
+}
+
+.wrapper::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #6c757d;
+  border: 1px solid #000;
+}

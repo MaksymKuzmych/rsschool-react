@@ -1,0 +1,16 @@
+.label {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.title::first-letter {
+  text-transform: uppercase;
+}
+
+.error {
+  color: red;
+  height: 12px;
+  font-size: 12px;
+  text-align: center;
+}
