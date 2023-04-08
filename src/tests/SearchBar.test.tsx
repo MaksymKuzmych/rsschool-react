@@ -6,11 +6,11 @@ import { SearchBar } from '../components/SearchBar/SearchBar';
 
 describe('Search Bar', () => {
   it('Should be defined', () => {
-    expect(<SearchBar />).toBeDefined();
+    expect(<SearchBar changeSearchValue={() => {}} />).toBeDefined();
   });
 
   it('Should has right placeholder', () => {
-    render(<SearchBar />);
+    render(<SearchBar changeSearchValue={() => {}} />);
     expect(screen.getByPlaceholderText('What are you looking for?')).toBeInTheDocument();
   });
 });
