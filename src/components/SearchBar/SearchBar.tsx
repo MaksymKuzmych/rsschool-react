@@ -1,8 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, KeyboardEvent, memo } from 'react';
 
 import styles from './SearchBar.module.css';
 
-export const SearchBar = () => {
+interface SearchBarProps {
+  changeSearchValue: (value: string) => void;
+}
+
+export const SearchBar = memo(({ changeSearchValue }: SearchBarProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -11,6 +15,14 @@ export const SearchBar = () => {
     return () => localStorage.setItem('searchInput', current?.value || '');
   }, []);
 
+  const handleSearchValue = () => {
+    changeSearchValue(inputRef.current?.value || '');
+  };
+
+  const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') handleSearchValue();
+  };
+
   return (
     <div className={styles.search} data-testid="search">
       <input
@@ -18,10 +30,11 @@ export const SearchBar = () => {
         className={styles.searchTerm}
         placeholder="What are you looking for?"
         ref={inputRef}
+        onKeyDown={handleKeyPress}
       />
-      <button type="submit" className={styles.searchButton}>
+      <button type="submit" className={styles.searchButton} onClick={handleSearchValue}>
         <i className="fa fa-search"></i>
       </button>
     </div>
   );
-};
+});

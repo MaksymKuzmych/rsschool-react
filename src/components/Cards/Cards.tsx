@@ -1,24 +1,29 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 
-import { songsData } from '../../assets/songs-data/songs';
 import { ICard } from '../../interfaces/interfaces';
 import { Card } from './Card/Card';
 
 import styles from './Cards.module.css';
 
-export const Cards = () => {
-  const [cards, setCards] = useState<ICard[]>([]);
+interface CardsProps {
+  cards: ICard[] | null;
+  openModal: (value: ICard) => void;
+}
 
-  useEffect(() => setCards(songsData), []);
-
+export const Cards = ({ cards, openModal }: CardsProps) => {
   const cardsLayout = useMemo(
-    () => cards.map((card) => <Card key={card.id} card={card} />),
-    [cards]
+    () => cards?.map((card) => <Card key={card.id} card={card} openModal={openModal} />),
+    [cards, openModal]
   );
 
   return (
-    <div className={styles.wrapper} data-testid="cards">
-      {cardsLayout}
-    </div>
+    <>
+      {cardsLayout?.length === 0 && (
+        <p className={styles.noFoundPhotos}>No matching photos found for your request</p>
+      )}
+      <div className={styles.wrapper} data-testid="cards">
+        {cardsLayout}
+      </div>
+    </>
   );
 };

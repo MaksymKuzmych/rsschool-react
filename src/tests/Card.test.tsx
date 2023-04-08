@@ -7,23 +7,23 @@ import { ICard } from '../interfaces/interfaces';
 
 describe('Card', () => {
   const mockData: ICard = {
-    id: 16,
-    name: 'System of a Down - Toxicity',
-    genre: 'Metal',
-    year: 2001,
-    description:
-      'Toxicity is the second single by American rock band System of a Down, released in 2001. From the album of the same name. The lyrics were written by Serj Tankian, Daron Malakian and Shavo Odadjian. This song has never been as successful as "Chop Suey!" or "B.Y.O.B.", but Toxicity is still one of System of a Down\'s most popular songs among its fans. She is known for her dynamic choruses, aggressive vocals, and famous drum beat. The song peaked at number 14 on VH1\'s 40 Greatest Metal Songs.',
-    image: './img/metal/System of a Down.jpg',
+    id: '1',
+    created_at: '2022-04-08T10:10:10-05:00',
+    description: 'A beautiful landscape',
+    alt_description: 'A mountain range with a lake in the foreground',
+    blur_hash: 'L6M1Jj^6Rjj]_Nj[ayoKxvRjJ7ay',
+    likes: 500,
+    urls: { full: 'https://example.com/image.jpg', small: 'https://example.com/image-small.jpg' },
+    user: { username: 'john_doe', location: 'New York' },
   };
 
   it('Should be defined', () => {
-    expect(<Card card={mockData} />).toBeDefined();
+    expect(<Card card={mockData} openModal={() => {}} />).toBeDefined();
   });
 
   it('Should has visible content', () => {
-    render(<Card card={mockData} />);
+    render(<Card card={mockData} openModal={() => {}} />);
     expect(screen.getByRole('img')).toBeVisible();
-    expect(screen.getByText(/Genre:/)).toBeVisible();
-    expect(screen.getByText(/Year:/)).toBeVisible();
+    expect(screen.getByText(/Author:/)).toBeVisible();
   });
 });

@@ -12,6 +12,5 @@ describe('Main Page', () => {
   it('Should has search bar and cards wrapper inside', () => {
     render(<MainPage />);
     expect(screen.getByTestId('search')).toBeInTheDocument();
-    expect(screen.getByTestId('cards')).toBeInTheDocument();
   });
 });

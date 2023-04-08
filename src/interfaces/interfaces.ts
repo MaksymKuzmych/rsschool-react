@@ -1,10 +1,12 @@
 export interface ICard {
-  id: number;
-  name: string;
-  genre: string;
-  year: number;
+  id: string;
+  created_at: string;
   description: string;
-  image: string;
+  alt_description: string;
+  blur_hash: string;
+  likes: number;
+  urls: { full: string; small: string };
+  user: { username: string; location: string };
 }
 
 export interface IUser {
@@ -16,4 +18,10 @@ export interface IUser {
   gender: string | null;
   avatar: FileList | undefined;
   agreement: boolean;
+}
+
+export interface ICardsJson {
+  results: ICard[];
+  total: number;
+  total_pages: number;
 }

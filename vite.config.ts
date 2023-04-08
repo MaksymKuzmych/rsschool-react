@@ -30,4 +30,9 @@ export default defineConfig({
       ],
     },
   },
+  define: {
+    'process.env': {
+      REACT_APP_API_KEY: 'StQzDcZxfG6tMx13SpbMv3t3rryYzYWzaXHBXt5vhyU',
+    },
+  },
 });
