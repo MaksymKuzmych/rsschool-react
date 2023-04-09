@@ -45,7 +45,7 @@ export const CardModal = memo(
               <strong>User location</strong>: {userLocation || 'unknown'}
             </p>
             <p>
-              <strong>Created at</strong>: {createdAt}
+              <strong>Created at</strong>: {new Date(createdAt).toLocaleDateString('en-US')}
             </p>
             <p>
               <strong>Description</strong>: {altDescription || description}
