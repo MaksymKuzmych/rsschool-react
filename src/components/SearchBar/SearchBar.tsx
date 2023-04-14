@@ -1,22 +1,23 @@
-import React, { useEffect, useRef, KeyboardEvent, memo } from 'react';
+import React, { useEffect, useRef, KeyboardEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { updateSearchValue } from '../../redux/slice/searchSlice';
+import { rootState } from '../../redux/store';
 
 import styles from './SearchBar.module.css';
 
-interface SearchBarProps {
-  changeSearchValue: (value: string) => void;
-}
-
-export const SearchBar = memo(({ changeSearchValue }: SearchBarProps) => {
+export const SearchBar = () => {
+  const dispatch = useDispatch();
+  const searchValue = useSelector((state: rootState) => state.searchValue.searchValue);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const current = inputRef.current;
-    if (current) current.value = localStorage.getItem('searchInput') || '';
-    return () => localStorage.setItem('searchInput', current?.value || '');
-  }, []);
+    if (current) current.value = searchValue;
+  }, [searchValue]);
 
   const handleSearchValue = () => {
-    changeSearchValue(inputRef.current?.value || '');
+    dispatch(updateSearchValue(inputRef.current?.value || ''));
   };
 
   const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -37,4 +38,4 @@ export const SearchBar = memo(({ changeSearchValue }: SearchBarProps) => {
       </button>
     </div>
   );
-});
+};

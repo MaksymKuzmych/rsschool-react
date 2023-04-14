@@ -1,55 +1,41 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-import { API_KEY, API_URL, ITEMS_PER_PAGE } from '../config';
-import { ICard, ICardsJson } from 'interfaces/interfaces';
+import { ICard } from '../interfaces/interfaces';
+import { useFetchCardsQuery } from '../redux/query/cardsQuery';
+import { rootState } from '../redux/store';
 
 interface FetchDataResponse {
   cards: ICard[] | null;
-  isLoading: boolean;
-  error: string | null;
-  changeSearchValue: (value: string) => void;
+  isFetching: boolean;
+  isError: boolean;
 }
 
 export const useFetchCards = (): FetchDataResponse => {
-  const [searchValue, setSearchValue] = useState(localStorage.getItem('searchInput') || 'photo');
+  const searchValue = useSelector((state: rootState) => state.searchValue.searchValue);
   const [cards, setCards] = useState<ICard[] | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const changeSearchValue = (value: string) => setSearchValue(value);
+  const { data, isFetching, isSuccess, isError } = useFetchCardsQuery(searchValue || 'photo');
 
   useEffect(() => {
-    const fetchCards = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          `${API_URL}?client_id=${API_KEY}&per_page=${ITEMS_PER_PAGE}&orientation=landscape&query=${searchValue}`
-        );
-        if (!response.ok) throw new Error(response.statusText);
+    if (isSuccess) {
+      const cardsData: ICard[] = data.results.map((item: ICard) => ({
+        id: item.id,
+        created_at: item.created_at,
+        description: item.description,
+        alt_description: item.alt_description,
+        blur_hash: item.blur_hash,
+        likes: item.likes,
+        urls: { full: item.urls.full, small: item.urls.small },
+        user: { username: item.user.username, location: item.user.location },
+      }));
 
-        const json: ICardsJson = await response.json();
-        const cardsData = json.results.map((item: ICard) => ({
-          id: item.id,
-          created_at: item.created_at,
-          description: item.description,
-          alt_description: item.alt_description,
-          blur_hash: item.blur_hash,
-          likes: item.likes,
-          urls: { full: item.urls.full, small: item.urls.small },
-          user: { username: item.user.username, location: item.user.location },
-        }));
+      setCards(cardsData);
+    }
+  }, [data, isSuccess, searchValue]);
 
-        setCards(cardsData);
-        setError(null);
-      } catch (error) {
-        setError(error as string);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchCards();
-  }, [searchValue]);
-
-  return { cards, isLoading, error, changeSearchValue };
+  return {
+    cards,
+    isFetching,
+    isError,
+  };
 };

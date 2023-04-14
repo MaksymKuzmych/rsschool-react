@@ -10,7 +10,7 @@ import { useFetchCards } from '../../hooks/useFetchCards';
 import styles from './MainPage.module.css';
 
 export const MainPage = () => {
-  const { cards, error, isLoading, changeSearchValue } = useFetchCards();
+  const { cards, isFetching, isError } = useFetchCards();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<ICard | null>(null);
 
@@ -23,9 +23,9 @@ export const MainPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      <SearchBar changeSearchValue={changeSearchValue} />
-      {isLoading ? <Loader /> : <Cards cards={cards} openModal={openModal} />}
-      {error && <p className={styles.error}>Something went wrong</p>}
+      <SearchBar />
+      {isFetching ? <Loader /> : <Cards cards={cards} openModal={openModal} />}
+      {isError && <p className={styles.error}>Something went wrong</p>}
       {isModalOpen && <CardModal closeModal={closeModal} modalContent={modalContent as ICard} />}
     </div>
   );

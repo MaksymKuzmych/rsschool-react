@@ -15,10 +15,12 @@
     "lint-fix": "eslint . --ext .tsx --ext .ts --fix"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.3",
     "react": "^18.2.0",
     "react-blurhash": "^0.3.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.8",
+    "react-redux": "^8.0.5",
     "react-router": "^6.9.0",
     "react-router-dom": "^6.9.0"
   },
@@ -44,11 +46,11 @@
     "husky": "^8.0.3",
     "jsdom": "^21.1.1",
     "lint-staged": "^13.2.0",
+    "msw": "^1.2.1",
     "prettier": "^2.8.4",
     "typescript": "^4.9.3",
     "vite": "^4.1.0",
     "vite-plugin-eslint": "^1.8.1",
-    "vitest": "^0.29.2",
-    "msw": "^1.2.1"
+    "vitest": "^0.29.2"
   }
 }

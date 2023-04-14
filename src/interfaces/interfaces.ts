@@ -20,7 +20,7 @@ export interface IUser {
   agreement: boolean;
 }
 
-export interface ICardsJson {
+export interface ICardsResponse {
   results: ICard[];
   total: number;
   total_pages: number;
