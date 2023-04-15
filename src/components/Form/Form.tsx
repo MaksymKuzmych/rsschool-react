@@ -1,29 +1,28 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 
-import { IUser } from '../../interfaces/interfaces';
+import { IUserFormData } from '../../interfaces/interfaces';
 import { textValid, requiredValid, langValid, fileValid } from '../../utils/validation';
 import { CustomInput } from './CustomInput/CustomInput';
 import { SelectCountry } from './SelectCountry/SelectCountry';
+import { addNewUser } from '../../redux/slice/usersSlice';
 
 import styles from './Form.module.css';
 
 const languages = ['English', 'Russian', 'Ukrainian'];
 const genders = ['male', 'female'];
 
-interface FormProps {
-  addNewUser: (user: IUser) => void;
-}
-
-export const Form = memo(({ addNewUser }: FormProps) => {
+export const Form = () => {
   const [isSuccess, setIsSuccess] = useState(false);
+  const dispatch = useDispatch();
 
   const {
     register,
     handleSubmit,
     formState: { isSubmitSuccessful, errors },
     reset,
-  } = useForm<IUser>({
+  } = useForm<IUserFormData>({
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
     shouldFocusError: false,
@@ -31,8 +30,13 @@ export const Form = memo(({ addNewUser }: FormProps) => {
   });
 
   const onSubmit = handleSubmit((data) => {
-    setIsSuccess(true);
-    addNewUser(data);
+    if (data.avatar) {
+      setIsSuccess(true);
+      const avatarFile = data.avatar[0];
+      const avatarUrl = URL.createObjectURL(avatarFile);
+      const userData = { ...data, avatar: avatarUrl };
+      dispatch(addNewUser(userData));
+    }
   });
 
   useEffect(() => {
@@ -94,4 +98,4 @@ export const Form = memo(({ addNewUser }: FormProps) => {
       )}
     </>
   );
-});
+};

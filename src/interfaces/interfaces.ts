@@ -9,7 +9,7 @@ export interface ICard {
   user: { username: string; location: string };
 }
 
-export interface IUser {
+export interface IUserFormData {
   name: string;
   surname: string;
   birthday: string;
@@ -18,6 +18,16 @@ export interface IUser {
   gender: string | null;
   avatar: FileList | undefined;
   agreement: boolean;
+}
+
+export interface IUser {
+  name: string;
+  surname: string;
+  birthday: string;
+  country: string;
+  languages: (string | null)[];
+  gender: string | null;
+  avatar: string;
 }
 
 export interface ICardsResponse {

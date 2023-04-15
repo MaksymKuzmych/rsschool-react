@@ -10,13 +10,12 @@ interface UserProps {
 
 export const User = memo(
   ({ user: { name, surname, birthday, country, languages, gender, avatar } }: UserProps) => {
-    const imgSrc = avatar ? URL.createObjectURL(avatar[0]) : '';
     const languagesLayout = languages.map((lang, index) => <span key={index}>{lang}</span>);
 
     return (
       <article className={styles.wrapper}>
         <section className={styles.imgWrapper}>
-          <img className={styles.img} src={imgSrc} alt={name} />
+          <img className={styles.img} src={avatar} alt={name} />
         </section>
         <section className={styles.mainInfo}>
           <h3 className={styles.title}>
