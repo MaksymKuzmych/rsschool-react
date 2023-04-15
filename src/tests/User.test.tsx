@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react';
 import { User } from '../components/Users/User/User';
 import { IUser } from '../interfaces/interfaces';
 
-describe('User component', () => {
+describe('User', () => {
   const user: IUser = {
     name: 'Maksym',
     surname: 'Kuzmych',
@@ -13,8 +13,7 @@ describe('User component', () => {
     country: 'Ukraine',
     languages: ['English', 'Ukrainian'],
     gender: 'Male',
-    avatar: undefined,
-    agreement: true,
+    avatar: '',
   };
 
   it('Should renders the user name and surname', () => {

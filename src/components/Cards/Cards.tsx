@@ -11,10 +11,11 @@ interface CardsProps {
 }
 
 export const Cards = ({ cards, openModal }: CardsProps) => {
-  const cardsLayout = useMemo(
-    () => cards?.map((card) => <Card key={card.id} card={card} openModal={openModal} />),
-    [cards, openModal]
-  );
+  const cardsLayout = useMemo(() => {
+    return cards?.map((card) => {
+      return <Card key={card.id} card={card} openModal={openModal} />;
+    });
+  }, [cards, openModal]);
 
   return (
     <>

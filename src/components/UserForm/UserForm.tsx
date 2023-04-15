@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
@@ -8,12 +8,9 @@ import { CustomInput } from './CustomInput/CustomInput';
 import { SelectCountry } from './SelectCountry/SelectCountry';
 import { addNewUser } from '../../redux/slice/usersSlice';
 
-import styles from './Form.module.css';
+import styles from './UserForm.module.css';
 
-const languages = ['English', 'Russian', 'Ukrainian'];
-const genders = ['male', 'female'];
-
-export const Form = () => {
+export const UserForm = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const dispatch = useDispatch();
 
@@ -29,39 +26,53 @@ export const Form = () => {
     shouldUseNativeValidation: false,
   });
 
+  const languagesLayout = useMemo(() => {
+    const languages = ['English', 'Russian', 'Ukrainian'];
+
+    return languages.map((language, idx) => {
+      return (
+        <CustomInput
+          type="checkbox"
+          register={register('languages', langValid)}
+          value={language}
+          key={idx}
+        />
+      );
+    });
+  }, [register]);
+
+  const gendersLayout = useMemo(() => {
+    const genders = ['male', 'female'];
+
+    return genders.map((gender, idx) => {
+      return (
+        <CustomInput
+          type="radio"
+          register={register('gender', requiredValid)}
+          value={gender}
+          key={idx}
+        />
+      );
+    });
+  }, [register]);
+
   const onSubmit = handleSubmit((data) => {
     if (data.avatar) {
       setIsSuccess(true);
+
       const avatarFile = data.avatar[0];
       const avatarUrl = URL.createObjectURL(avatarFile);
       const userData = { ...data, avatar: avatarUrl };
+
       dispatch(addNewUser(userData));
     }
   });
 
   useEffect(() => {
-    if (isSubmitSuccessful) reset();
+    if (isSubmitSuccessful) {
+      reset();
+    }
   }, [reset, isSubmitSuccessful]);
-
-  const languagesLayout = languages.map((language, idx) => {
-    return (
-      <CustomInput
-        type="checkbox"
-        register={register('languages', langValid)}
-        value={language}
-        key={idx}
-      />
-    );
-  });
-
-  const gendersLayout = genders.map((gender, idx) => (
-    <CustomInput
-      type="radio"
-      register={register('gender', requiredValid)}
-      value={gender}
-      key={idx}
-    />
-  ));
 
   return (
     <>

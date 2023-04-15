@@ -24,8 +24,11 @@ export const langValid = {
 
 export const fileValid = {
   validate: {
-    notEmpty: (value: FileList | undefined) => (value && value.length > 0) || 'Required Field',
-    typeImg: (value: FileList | undefined) =>
-      (value && value.length > 0 && value[0].type.startsWith('image')) || 'Must be an image',
+    notEmpty: (value: FileList | undefined) => {
+      return (value && value.length > 0) || 'Required Field';
+    },
+    typeImg: (value: FileList | undefined) => {
+      return (value && value.length > 0 && value[0].type.startsWith('image')) || 'Must be an image';
+    },
   },
 };

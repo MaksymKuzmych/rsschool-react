@@ -3,19 +3,21 @@ import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 import styles from './SelectCountry.module.css';
 
-const countries = ['Ukraine', 'Russia', 'Belarus', 'Other country'];
-
 interface SelectCountryProps {
   register: UseFormRegisterReturn<string>;
   error: FieldError | undefined;
 }
 
 export const SelectCountry = memo(({ register, error }: SelectCountryProps) => {
-  const countriesLayout = countries.map((country, index) => (
-    <option value={country} key={index}>
-      {country}
-    </option>
-  ));
+  const countries = ['Ukraine', 'Russia', 'Belarus', 'Other country'];
+
+  const countriesLayout = countries.map((country, index) => {
+    return (
+      <option value={country} key={index}>
+        {country}
+      </option>
+    );
+  });
 
   return (
     <div>

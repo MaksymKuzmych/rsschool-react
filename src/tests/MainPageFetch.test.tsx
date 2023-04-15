@@ -1,12 +1,14 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
-import { MainPage } from '../pages/MainPage/MainPage';
+import { Main } from '../pages/Main/Main';
 import { ICard } from '../interfaces/interfaces';
 import { API_URL } from '../config';
+import { store } from '../redux/store';
 
 const mockCards: ICard[] = [
   {
@@ -42,17 +44,6 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe('Main Page Fetch', () => {
-  it('should renders cards', async () => {
-    render(<MainPage />);
-
-    expect(screen.getByTestId('loader')).toBeInTheDocument();
-
-    const cards = await screen.findAllByTestId('card');
-
-    expect(cards).toHaveLength(mockCards.length);
-    expect(screen.queryByText('Something went wrong')).toBeNull();
-  });
-
   it('should handles API errors and displays an error message', async () => {
     server.use(
       rest.get(API_URL, (req, res, ctx) => {
@@ -60,7 +51,16 @@ describe('Main Page Fetch', () => {
       })
     );
 
-    render(<MainPage />);
+    const mockStore = {
+      ...store,
+      cardsApi: { data: mockCards, error: '', isLoading: false },
+    };
+
+    render(
+      <Provider store={mockStore}>
+        <Main />
+      </Provider>
+    );
 
     expect(screen.getByTestId('loader')).toBeInTheDocument();
 

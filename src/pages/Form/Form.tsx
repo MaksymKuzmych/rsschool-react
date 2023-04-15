@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { Form } from '../../components/Form/Form';
+import { UserForm } from '../../components/UserForm/UserForm';
 import { Users } from '../../components/Users/Users';
 
-import styles from './FormPage.module.css';
+import styles from './Form.module.css';
 
-export const FormPage = () => {
+export const Form = () => {
   return (
     <div className={styles.wrapper}>
-      <Form />
+      <UserForm />
       <Users />
     </div>
   );

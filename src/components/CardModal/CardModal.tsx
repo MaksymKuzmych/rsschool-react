@@ -23,8 +23,10 @@ export const CardModal = memo(
     },
     closeModal,
   }: CardModalProps) => {
-    const handleCloseModal: MouseEventHandler<HTMLDivElement> = (event) => {
-      if (event.target === event.currentTarget) closeModal();
+    const handleCloseModal: MouseEventHandler<HTMLDivElement> = (e) => {
+      if (e.target === e.currentTarget) {
+        closeModal();
+      }
     };
 
     return (

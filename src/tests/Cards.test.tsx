@@ -3,7 +3,7 @@ import { describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
 import { Cards } from '../components/Cards/Cards';
-import { ICard } from 'interfaces/interfaces';
+import { ICard } from '../interfaces/interfaces';
 
 describe('Cards', () => {
   const mockData: ICard[] = [

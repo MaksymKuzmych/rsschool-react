@@ -7,9 +7,9 @@ import { Loader } from '../../components/Loader/Loader';
 import { ICard } from '../../interfaces/interfaces';
 import { useFetchCards } from '../../hooks/useFetchCards';
 
-import styles from './MainPage.module.css';
+import styles from './Main.module.css';
 
-export const MainPage = () => {
+export const Main = () => {
   const { cards, isFetching, isError } = useFetchCards();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<ICard | null>(null);
@@ -19,7 +19,9 @@ export const MainPage = () => {
     setIsModalOpen(true);
   };
 
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className={styles.wrapper}>

@@ -1,22 +1,34 @@
 import React from 'react';
-import { describe, it } from 'vitest';
+import { Provider } from 'react-redux';
+import { describe, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 
-import { Form } from '../components/Form/Form';
+import { UserForm } from '../components/UserForm/UserForm';
+import { store } from '../redux/store';
 
 describe('Form', () => {
-  it('Should shows validation errors when form is submitted with empty values', async () => {
-    render(<Form addNewUser={() => {}} />);
+  it('Should show validation errors when form is submitted with empty values', async () => {
+    render(
+      <Provider store={store}>
+        <UserForm />
+      </Provider>
+    );
 
     const addNewUserButton = screen.getByRole('button', { name: /add new user/i });
 
     fireEvent.click(addNewUserButton);
 
-    (await screen.findAllByText(/Required field/i)).length === 7;
+    expect(await screen.findAllByText(/Required field/i)).toHaveLength(7);
   });
 
-  it('Should submits with valid form', async () => {
-    render(<Form addNewUser={() => {}} />);
+  it('Should submit with valid form', async () => {
+    render(
+      <Provider store={store}>
+        <UserForm />
+      </Provider>
+    );
+
+    URL.createObjectURL = vi.fn();
 
     const nameInput = screen.getByLabelText(/^name/i);
     const surnameInput = screen.getByLabelText(/surname/i);

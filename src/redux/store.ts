@@ -16,5 +16,7 @@ export const store = configureStore({
     searchValue: searchReducer,
     users: usersReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(cardsApi.middleware),
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(cardsApi.middleware);
+  },
 });

@@ -13,15 +13,20 @@ export const SearchBar = () => {
 
   useEffect(() => {
     const current = inputRef.current;
-    if (current) current.value = searchValue;
+
+    if (current) {
+      current.value = searchValue;
+    }
   }, [searchValue]);
 
   const handleSearchValue = () => {
     dispatch(updateSearchValue(inputRef.current?.value || ''));
   };
 
-  const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') handleSearchValue();
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearchValue();
+    }
   };
 
   return (

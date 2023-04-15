@@ -16,8 +16,12 @@ export const Card = memo(({ card, openModal }: CardProps) => {
     user: { username },
   } = card;
 
+  const openModalHandler = () => {
+    openModal(card);
+  };
+
   return (
-    <article className={styles.wrapper} data-testid="card" onClick={() => openModal(card)}>
+    <article className={styles.wrapper} data-testid="card" onClick={openModalHandler}>
       <section className={styles.imgWrapper}>
         <img className={styles.img} src={imageSrc} alt={altDescription} />
       </section>
