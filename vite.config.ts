@@ -4,10 +4,25 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import eslint from 'vite-plugin-eslint';
+import istanbul from 'vite-plugin-istanbul';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), eslint()],
+  build: {
+    sourcemap: true,
+  },
+  plugins: [
+    react(),
+    eslint(),
+    istanbul({
+      cypress: true,
+      requireEnv: false,
+    }),
+  ],
+  server: {
+    host: true,
+    port: 3000,
+  },
   test: {
     globals: true,
     environment: 'jsdom',
@@ -27,6 +42,9 @@ export default defineConfig({
         '**/*.d.ts',
         '**/.{eslint,mocha,prettier}rc.{js,cjs,yml}',
         'src/main.tsx',
+        '**/server.ts',
+        '**/entry-client.tsx',
+        '**/entry-server.tsx',
       ],
     },
   },
