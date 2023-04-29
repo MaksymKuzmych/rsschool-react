@@ -8,7 +8,7 @@ import { render, screen } from '@testing-library/react';
 import { Main } from '../pages/Main/Main';
 import { ICard } from '../interfaces/interfaces';
 import { API_URL } from '../config';
-import { store } from '../redux/store';
+import { initStore } from '../redux/store';
 
 const mockCards: ICard[] = [
   {
@@ -44,6 +44,7 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe('Main Page Fetch', () => {
+  const store = initStore();
   it('should handles API errors and displays an error message', async () => {
     server.use(
       rest.get(API_URL, (req, res, ctx) => {

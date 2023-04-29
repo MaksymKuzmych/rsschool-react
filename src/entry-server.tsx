@@ -4,12 +4,24 @@ import { RenderToPipeableStreamOptions, renderToPipeableStream } from 'react-dom
 import { StaticRouter } from 'react-router-dom/server';
 
 import { App } from './components/App/App';
-import { store } from './redux/store';
+import { initStore } from './redux/store';
+import { cardsApi } from './redux/query/cardsQuery';
 
 import './index.css';
 
-export const render = (url: string, options?: RenderToPipeableStreamOptions) => {
-  return renderToPipeableStream(
+export const render = async (url: string, options?: RenderToPipeableStreamOptions) => {
+  const store = initStore();
+
+  store.dispatch(cardsApi.endpoints.fetchCards.initiate('photo'));
+  await Promise.all(store.dispatch(cardsApi.util.getRunningQueriesThunk()));
+
+  const preloadedState = store.getState();
+  const injectPreload = () => `
+    <script>
+    window.PRELOADED_STATE = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
+    </script>
+    `;
+  const stream = renderToPipeableStream(
     <Provider store={store}>
       <StaticRouter location={url}>
         <App />
@@ -17,4 +29,6 @@ export const render = (url: string, options?: RenderToPipeableStreamOptions) => 
     </Provider>,
     options
   );
+
+  return { stream, injectPreload };
 };

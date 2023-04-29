@@ -4,9 +4,10 @@ import { describe, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 import { UserForm } from '../components/UserForm/UserForm';
-import { store } from '../redux/store';
+import { initStore } from '../redux/store';
 
 describe('Form', () => {
+  const store = initStore();
   it('Should show validation errors when form is submitted with empty values', async () => {
     render(
       <Provider store={store}>

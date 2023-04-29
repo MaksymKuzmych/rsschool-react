@@ -1,5 +1,4 @@
 /// <reference types="cypress" />
-import 'cypress-file-upload';
 
 describe('App test', () => {
   afterEach(() => {
@@ -67,7 +66,7 @@ describe('App test', () => {
     cy.get('input[type="checkbox"][name="agreement"]').check();
     cy.get('input[type="checkbox"][value="English"]').check();
     cy.get('input[type="checkbox"][value="Ukrainian"]').check();
-    cy.get('input[type="file"]').attachFile('avatar.png');
+    cy.get('input[type="file"]').selectFile('./cypress/fixtures/avatar.png');
 
     cy.get('input[type="submit"]').click();
 

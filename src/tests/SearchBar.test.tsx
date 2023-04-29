@@ -4,9 +4,11 @@ import { describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
 import { SearchBar } from '../components/SearchBar/SearchBar';
-import { store } from '../redux/store';
+import { initStore } from '../redux/store';
 
 describe('Search Bar', () => {
+  const store = initStore();
+
   it('Should be defined', () => {
     expect(
       <Provider store={store}>

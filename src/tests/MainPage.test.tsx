@@ -4,9 +4,11 @@ import { describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
 import { Main } from '../pages/Main/Main';
-import { store } from '../redux/store';
+import { initStore } from '../redux/store';
 
 describe('Main Page', () => {
+  const store = initStore();
+
   it('Should be defined', () => {
     expect(
       <Provider store={store}>

@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { PreloadedState, configureStore } from '@reduxjs/toolkit';
 import { cardsApi } from './query/cardsQuery';
 
 import searchReducer, { ISearchState } from './slice/searchSlice';
@@ -10,13 +10,15 @@ export interface rootState {
   users: IUsersState;
 }
 
-export const store = configureStore({
-  reducer: {
-    [cardsApi.reducerPath]: cardsApi.reducer,
-    searchValue: searchReducer,
-    users: usersReducer,
-  },
-  middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(cardsApi.middleware);
-  },
-});
+export const initStore = (preloadedState?: PreloadedState<rootState>) =>
+  configureStore({
+    preloadedState,
+    reducer: {
+      [cardsApi.reducerPath]: cardsApi.reducer,
+      searchValue: searchReducer,
+      users: usersReducer,
+    },
+    middleware: (getDefaultMiddleware) => {
+      return getDefaultMiddleware().concat(cardsApi.middleware);
+    },
+  });
