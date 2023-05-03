@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
@@ -26,7 +26,7 @@ export const UserForm = () => {
     shouldUseNativeValidation: false,
   });
 
-  const languagesLayout = useMemo(() => {
+  const languagesLayout = () => {
     const languages = ['English', 'Russian', 'Ukrainian'];
 
     return languages.map((language, idx) => {
@@ -39,9 +39,9 @@ export const UserForm = () => {
         />
       );
     });
-  }, [register]);
+  };
 
-  const gendersLayout = useMemo(() => {
+  const gendersLayout = () => {
     const genders = ['male', 'female'];
 
     return genders.map((gender, idx) => {
@@ -54,7 +54,7 @@ export const UserForm = () => {
         />
       );
     });
-  }, [register]);
+  };
 
   const onSubmit = handleSubmit((data) => {
     if (data.avatar) {
@@ -87,7 +87,7 @@ export const UserForm = () => {
           error={errors.birthday}
         />
         <h3 className={styles.formGroupTitle}>Gender</h3>
-        <div className={styles.formGroup}>{gendersLayout}</div>
+        <div className={styles.formGroup}>{gendersLayout()}</div>
         <p className={styles.error}>{errors?.gender && errors.gender.message}</p>
         <SelectCountry register={register('country', requiredValid)} error={errors.country} />
         <CustomInput
@@ -97,7 +97,7 @@ export const UserForm = () => {
           error={errors.agreement}
         />
         <h3 className={styles.formGroupTitle}>Languages you speak</h3>
-        <div className={styles.formGroup}>{languagesLayout}</div>
+        <div className={styles.formGroup}>{languagesLayout()}</div>
         <p className={styles.error}>{errors?.languages && errors.languages.message}</p>
         <CustomInput type="file" register={register('avatar', fileValid)} error={errors.avatar} />
         <input type="submit" value="Add new user" className={styles.submit} />

@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo } from 'react';
 
 import { IUser } from '../../../interfaces/interfaces';
 
@@ -10,11 +10,11 @@ interface UserProps {
 
 export const User = memo(
   ({ user: { name, surname, birthday, country, languages, gender, avatar } }: UserProps) => {
-    const languagesLayout = useMemo(() => {
-      return languages.map((lang, index) => {
+    const languagesLayout = () => {
+      return languages?.map((lang, index) => {
         return <span key={index}>{lang}</span>;
       });
-    }, [languages]);
+    };
 
     return (
       <article className={styles.wrapper}>
@@ -29,7 +29,7 @@ export const User = memo(
           <p className={styles.paragraph}>Birthday: {birthday?.toString()}</p>
           <p className={styles.paragraph}>Country: {country}</p>
           <h3 className={styles.title}>Languages:</h3>
-          <p className={styles.paragraph}>{languagesLayout}</p>
+          <p className={styles.paragraph}>{languagesLayout()}</p>
         </section>
       </article>
     );
